@@ -73,6 +73,9 @@ public class FloatingGroupExpandableListView extends ExpandableListView {
 
 	private final Rect mIndicatorRect = new Rect();
 
+    //hack for quick return
+    private int mDelta = 0;
+
 	public FloatingGroupExpandableListView(Context context) {
 		super(context);
 		init();
@@ -496,8 +499,8 @@ public class FloatingGroupExpandableListView extends ExpandableListView {
 		}
 
 		final int left = getPaddingLeft();
-		final int top = getPaddingTop() + floatingGroupScrollY;
-		final int right = left + mFloatingGroupView.getMeasuredWidth();
+        final int top = getPaddingTop() + floatingGroupScrollY + mDelta;
+        final int right = left + mFloatingGroupView.getMeasuredWidth();
 		final int bottom = top + mFloatingGroupView.getMeasuredHeight();
 		mFloatingGroupView.layout(left, top, right, bottom);
 
@@ -507,6 +510,10 @@ public class FloatingGroupExpandableListView extends ExpandableListView {
 					mFloatingGroupView, mFloatingGroupScrollY);
 		}
 	}
+
+    public void setFloatingGroupViewDelta(int delta) {
+        mDelta = delta;
+    }
 
 	private void loadAttachInfo() {
 		if (mViewAttachInfo == null) {
