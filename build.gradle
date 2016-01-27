@@ -1,24 +1,40 @@
-buildscript {
-    repositories {
-        mavenCentral()
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "23.0.2"
+
+//    defaultConfig {
+//        minSdkVersion 15
+//        targetSdkVersion 23
+//        versionCode 1
+//        versionName "1.0"
+//    }
+
+	  sourceSets {
+        main {
+            manifest.srcFile 'FloatingGroupExpandableListView/AndroidManifest.xml'
+            java.srcDirs = ['FloatingGroupExpandableListView/src']
+            resources.srcDirs = ['FloatingGroupExpandableListView/src']
+            aidl.srcDirs = ['FloatingGroupExpandableListView/src']
+            renderscript.srcDirs = ['FloatingGroupExpandableListView/src']
+            res.srcDirs = ['FloatingGroupExpandableListView/res']
+            assets.srcDirs = ['FloatingGroupExpandableListView/assets']
+        }
+
+        instrumentTest.setRoot('tests')
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
     }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
-def isReleaseBuild() {
-    return version.contains("SNAPSHOT") == false
+dependencies {
+    compile fileTree(dir: 'FloatingGroupExpandableListView/libs', include: ['*.jar'])
 }
-
-allprojects {
-    version = VERSION_NAME
-    group = GROUP
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-apply plugin: 'android-reporting'
